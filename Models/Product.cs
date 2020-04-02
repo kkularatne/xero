@@ -3,8 +3,22 @@ using Newtonsoft.Json;
 
 namespace RefactorThis.Models
 {
-    public class Product
+    public interface IProduct
     {
+        Guid Id { get; set; }
+        string Name { get; set; }
+        string Description { get; set; }
+        decimal Price { get; set; }
+        decimal DeliveryPrice { get; set; }
+        bool IsNew { get; }
+        void Save();
+        void Delete();
+    }
+
+    public class Product : IProduct
+    {
+        private readonly IHelpers _helpers;
+
         public Guid Id { get; set; }
 
         public string Name { get; set; }
@@ -17,16 +31,18 @@ namespace RefactorThis.Models
 
         [JsonIgnore] public bool IsNew { get; }
 
-        public Product()
+        public Product(IHelpers helpers)
         {
+            _helpers = helpers;
             Id = Guid.NewGuid();
             IsNew = true;
         }
 
-        public Product(Guid id)
+        public Product(Guid id, IHelpers helpers)
         {
+            _helpers = helpers;
             IsNew = true;
-            var conn = Helpers.NewConnection();
+            var conn = _helpers.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
             cmd.CommandText = $"select * from Products where id = '{id}' collate nocase";
@@ -45,7 +61,7 @@ namespace RefactorThis.Models
 
         public void Save()
         {
-            var conn = Helpers.NewConnection();
+            var conn = _helpers.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
 
@@ -59,10 +75,10 @@ namespace RefactorThis.Models
 
         public void Delete()
         {
-            foreach (var option in new ProductOptions(Id).Items)
+            foreach (var option in new ProductOptions(Id,_helpers).Items)
                 option.Delete();
 
-            var conn = Helpers.NewConnection();
+            var conn = _helpers.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
 

@@ -8,16 +8,23 @@ namespace RefactorThis.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
+        private readonly IHelpers _helpers;
+
+        public ProductsController(IHelpers helpers)
+        {
+            _helpers = helpers;
+        }
+
         [HttpGet]
         public Products Get()
         {
-            return new Products();
+            return new Products(_helpers);
         }
 
         [HttpGet("{id}")]
         public Product Get(Guid id)
         {
-            var product = new Product(id);
+            var product = new Product(id,_helpers);
             if (product.IsNew)
                 throw new Exception();
 
@@ -33,7 +40,7 @@ namespace RefactorThis.Controllers
         [HttpPut("{id}")]
         public void Update(Guid id, Product product)
         {
-            var orig = new Product(id)
+            var orig = new Product(id,_helpers)
             {
                 Name = product.Name,
                 Description = product.Description,
@@ -48,20 +55,20 @@ namespace RefactorThis.Controllers
         [HttpDelete("{id}")]
         public void Delete(Guid id)
         {
-            var product = new Product(id);
+            var product = new Product(id,_helpers);
             product.Delete();
         }
 
         [HttpGet("{productId}/options")]
         public ProductOptions GetOptions(Guid productId)
         {
-            return new ProductOptions(productId);
+            return new ProductOptions(productId,_helpers);
         }
 
         [HttpGet("{productId}/options/{id}")]
         public ProductOption GetOption(Guid productId, Guid id)
         {
-            var option = new ProductOption(id);
+            var option = new ProductOption(id,_helpers);
             if (option.IsNew)
                 throw new Exception();
 
@@ -78,7 +85,7 @@ namespace RefactorThis.Controllers
         [HttpPut("{productId}/options/{id}")]
         public void UpdateOption(Guid id, ProductOption option)
         {
-            var orig = new ProductOption(id)
+            var orig = new ProductOption(id,_helpers)
             {
                 Name = option.Name,
                 Description = option.Description
@@ -91,7 +98,7 @@ namespace RefactorThis.Controllers
         [HttpDelete("{productId}/options/{id}")]
         public void DeleteOption(Guid id)
         {
-            var opt = new ProductOption(id);
+            var opt = new ProductOption(id,_helpers);
             opt.Delete();
         }
     }

@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Options;
+using RefactorThis.Models;
 
 namespace RefactorThis
 {
@@ -26,6 +27,11 @@ namespace RefactorThis
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
+            services.AddTransient<IHelpers, Helpers>();
+            services.AddTransient<IProduct, Product>();
+            services.AddTransient<IProducts, Products>();
+            services.AddTransient<IProductOption, ProductOption>();
+            services.AddTransient<IProductOptions, ProductOptions>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
