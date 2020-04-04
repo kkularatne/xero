@@ -29,13 +29,14 @@ namespace RefactorThis
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddMvc().SetCompatibilityVersion(CompatibilityVersion.Version_2_2);
-            services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProduct, Product>();
             services.AddTransient<IProducts, Products>();
             services.AddTransient<IProductOption, ProductOption>();
             services.AddTransient<IProductOptions, ProductOptions>();
             services.AddTransient<IProductService, ProductService>();
-            //services.AddTransient<IProductOptions, ProductOptions>();
+            services.AddTransient<IProductRepository, ProductRepository>();
+            services.AddTransient<IProductOptionService, ProductOptionService>();
+            services.AddTransient<IProductOptionRepository, ProductOptionRepository>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

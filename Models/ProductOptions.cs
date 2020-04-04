@@ -27,21 +27,26 @@ namespace RefactorThis.Models
             LoadProductOptions($"where productid = '{productId}' collate nocase");
         }
 
+        public ProductOptions(List<ProductOption> items)
+        {
+            Items = items;
+        }
+
         private void LoadProductOptions(string where)
         {
-            Items = new List<ProductOption>();
-            var conn = _productRepository.NewConnection();
-            conn.Open();
-            var cmd = conn.CreateCommand();
+            //Items = new List<ProductOption>();
+            //var conn = _productRepository.NewConnection();
+            //conn.Open();
+            //var cmd = conn.CreateCommand();
 
-            cmd.CommandText = $"select id from productoptions {where}";
+            //cmd.CommandText = $"select id from productoptions {where}";
 
-            var rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                var id = Guid.Parse(rdr.GetString(0));
-                Items.Add(new ProductOption(id,_productRepository));
-            }
+            //var rdr = cmd.ExecuteReader();
+            //while (rdr.Read())
+            //{
+            //    var id = Guid.Parse(rdr.GetString(0));
+            //    Items.Add(new ProductOption(id,_productRepository));
+            //}
         }
     }
 }

@@ -13,7 +13,5 @@ namespace RefactorThis.Repositories
         void DeleteProduct(Guid id);
 
         IList<Product> SearchProducts(string name);
-
-        SqliteConnection NewConnection();
     }
 }

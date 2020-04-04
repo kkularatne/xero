@@ -12,11 +12,13 @@ namespace RefactorThis.Controllers
     {
         private readonly IProductRepository _productRepository;
         private readonly IProductService _productService;
+        private readonly IProductOptionService _productOptionService;
 
-        public ProductsController(IProductRepository productRepository, IProductService productService)
+        public ProductsController(IProductRepository productRepository, IProductService productService, IProductOptionService productOptionService)
         {
             _productRepository = productRepository;
             _productService = productService;
+            _productOptionService = productOptionService;
         }
 
         [HttpGet]
@@ -98,19 +100,23 @@ namespace RefactorThis.Controllers
         }
 
         [HttpGet("{productId}/options")]
-        public ProductOptions GetOptions(Guid productId)
+        public IActionResult GetOptions(Guid productId)
         {
-            return new ProductOptions(productId,_productRepository);
+            var productOptions = _productOptionService.GetProductOptionsByProductId(productId);
+            return Ok(productOptions);
         }
 
         [HttpGet("{productId}/options/{id}")]
-        public ProductOption GetOption(Guid productId, Guid id)
+        public IActionResult GetOption(Guid productId, Guid id)
         {
-            var option = new ProductOption(id,_productRepository);
-            if (option.IsNew)
-                throw new Exception();
+            var product = _productService.GetProduct(productId);
+            var productOption  =_productOptionService.GetProductOption(id);
+            //var option = new ProductOption(id,_productRepository);
+            //if (option.IsNew)
+            //    throw new Exception();
 
-            return option;
+            //return option;
+            return Ok(productOption);
         }
 
         [HttpPost("{productId}/options")]
@@ -123,21 +129,21 @@ namespace RefactorThis.Controllers
         [HttpPut("{productId}/options/{id}")]
         public void UpdateOption(Guid id, ProductOption option)
         {
-            var orig = new ProductOption(id,_productRepository)
-            {
-                Name = option.Name,
-                Description = option.Description
-            };
+            //var orig = new ProductOption(id,_productRepository)
+            //{
+            //    Name = option.Name,
+            //    Description = option.Description
+            //};
 
-            if (!orig.IsNew)
-                orig.Save();
+            //if (!orig.IsNew)
+            //    orig.Save();
         }
 
         [HttpDelete("{productId}/options/{id}")]
         public void DeleteOption(Guid id)
         {
-            var opt = new ProductOption(id,_productRepository);
-            opt.Delete();
+            //var opt = new ProductOption(id,_productRepository);
+            //opt.Delete();
         }
     }
 }

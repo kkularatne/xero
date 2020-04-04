@@ -6,13 +6,10 @@ using RefactorThis.Models;
 
 namespace RefactorThis.Repositories
 {
-    public class ProductRepository : IProductRepository
+    public class ProductRepository : BaseRepository, IProductRepository
     {
-        private readonly IConfiguration _configuration;
-
-        public ProductRepository(IConfiguration configuration)
+        public ProductRepository(IConfiguration configuration) : base(configuration)
         {
-            _configuration = configuration;
         }
 
         public Product SelectProduct(Guid id)
@@ -108,11 +105,6 @@ namespace RefactorThis.Repositories
             }
 
             return items;
-        }
-
-        public SqliteConnection NewConnection()
-        {
-            return new SqliteConnection(this._configuration.GetConnectionString("xero"));
         }
     }
 }
