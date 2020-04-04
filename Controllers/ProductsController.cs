@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RefactorThis.Models;
 using RefactorThis.Repositories;
 using RefactorThis.Services;
+using SQLitePCL;
 
 namespace RefactorThis.Controllers
 {
@@ -140,10 +141,10 @@ namespace RefactorThis.Controllers
         }
 
         [HttpDelete("{productId}/options/{id}")]
-        public void DeleteOption(Guid id)
+        public IActionResult DeleteOption(Guid id)
         {
-            //var opt = new ProductOption(id,_productRepository);
-            //opt.Delete();
+            _productOptionService.Delete(id);
+            return NoContent();
         }
     }
 }

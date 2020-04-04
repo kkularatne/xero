@@ -12,6 +12,7 @@ namespace RefactorThis.Repositories
     {
         IList<ProductOption> SearchProducts(string productId = null);
         ProductOption SelectProductOption(Guid id);
+        void DeleteProductOption(Guid id);
     }
 
     public class ProductOptionRepository : BaseRepository, IProductOptionRepository
@@ -76,5 +77,17 @@ namespace RefactorThis.Repositories
                 }
             }
         }
+
+        public void DeleteProductOption(Guid id)
+        {
+            using (var conn = NewConnection())
+            {
+                conn.Open();
+                var cmd = new SqliteCommand($"delete from productoptions where id = '{id}' collate nocase", conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
     }
 }

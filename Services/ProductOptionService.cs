@@ -12,6 +12,7 @@ namespace RefactorThis.Services
         ProductOptions GetAllProductOptions();
         ProductOptions GetProductOptionsByProductId(Guid productId);
         ProductOption GetProductOption(Guid id);
+        void Delete(Guid id);
     }
 
     public class ProductOptionService : IProductOptionService
@@ -38,6 +39,11 @@ namespace RefactorThis.Services
         public ProductOption GetProductOption(Guid id)
         {
             return _productOptionRepository.SelectProductOption(id);
+        }
+
+        public void Delete(Guid id)
+        {
+            _productOptionRepository.DeleteProductOption(id);
         }
     }
 }
