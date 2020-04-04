@@ -40,37 +40,39 @@ namespace RefactorThis.Repositories
 
         public void SaveProduct(Guid id, string name, string description, decimal price, decimal deliveryPrice)
         {
-            var conn = this.NewConnection();
-            conn.Open();
-            var cmd = conn.CreateCommand();
-
-            cmd.CommandText =
-                $"insert into Products (id, name, description, price, deliveryprice) values ('{id}', '{name}', '{description}', {price}, {deliveryPrice})";
-                
-            conn.Open();
-            cmd.ExecuteNonQuery();
+            using (var conn = this.NewConnection())
+            {
+                var cmd = new SqliteCommand(
+                    $"insert into Products (id, name, description, price, deliveryprice) values ('{id}', '{name}', '{description}', {price}, {deliveryPrice})",
+                    conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
         }
 
         public void UpdateProduct(Guid id, string name, string description, decimal price, decimal deliveryPrice)
         {
-            var conn = this.NewConnection();
-            conn.Open();
-            var cmd = conn.CreateCommand();
-
-            cmd.CommandText = $"update Products set name = '{name}', description = '{description}', price = {price}, deliveryprice = {deliveryPrice} where id = '{id}' collate nocase";
-
-            conn.Open();
-            cmd.ExecuteNonQuery();
+            using (var conn = this.NewConnection())
+            {
+                var cmd = new SqliteCommand(
+                    $"update Products set name = '{name}', description = '{description}', price = {price}, deliveryprice = {deliveryPrice} where id = '{id}' collate nocase",
+                    conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
         }
 
         public void DeleteProduct(Guid id)
         {
-            var conn = NewConnection();
-            conn.Open();
-            var cmd = conn.CreateCommand();
-
-            cmd.CommandText = $"delete from Products where id = '{id}' collate nocase";
-            cmd.ExecuteNonQuery();
+            using (var conn = NewConnection())
+            {
+                conn.Open();
+                var cmd = new SqliteCommand($"delete from Products where id = '{id}' collate nocase", conn);
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
         }
 
         public IList<Product> SearchProducts(string name = null)

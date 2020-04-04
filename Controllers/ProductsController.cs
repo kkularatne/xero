@@ -46,31 +46,55 @@ namespace RefactorThis.Controllers
         [HttpPost]
         public IActionResult Post(Product product)
         {
-            product.Save();
-            // created 201
-            return Ok();
+            try
+            {
+                var id = _productService.Save(product);
+                return Created(new Uri("https://localhost:44335/api/products"), id);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPut("{id}")]
-        public void Update(Guid id, Product product)
+        public IActionResult Update(Guid id, Product product)
         {
-            var orig = new Product(id,_productRepository)
+            try
             {
-                Name = product.Name,
-                Description = product.Description,
-                Price = product.Price,
-                DeliveryPrice = product.DeliveryPrice
-            };
+                var originalProduct= _productService.GetProduct(id);
+                _productService.Update(originalProduct.Id, product);
+                return NoContent();
 
-            if (!orig.IsNew)
-                orig.Save();
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete("{id}")]
-        public void Delete(Guid id)
+        public IActionResult Delete(Guid id)
         {
-            var product = new Product(id,_productRepository);
-            product.Delete();
+            try
+            {
+                var originalProduct = _productService.GetProduct(id);
+                _productService.Delete(originalProduct.Id);
+                return NoContent();
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
+
         }
 
         [HttpGet("{productId}/options")]

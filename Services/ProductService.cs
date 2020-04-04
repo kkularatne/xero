@@ -9,11 +9,10 @@ namespace RefactorThis.Services
     {
         Products GetAllProducts();
         Products GetProductsByName(string name);
-
         Product GetProduct(Guid id);
-
-        void Save(Product product);
-        void Update(Product product);
+        Guid Save(Product product);
+        void Update(Guid id, Product product);
+        void Delete(Guid id);
     }
 
     public class ProductService : IProductService
@@ -27,8 +26,8 @@ namespace RefactorThis.Services
 
         public Products GetAllProducts()
         {
-           var products = _productRepository.SearchProducts(string.Empty);
-           return new Products(products.ToList());
+            var products = _productRepository.SearchProducts(string.Empty);
+            return new Products(products.ToList());
         }
 
         public Products GetProductsByName(string name)
@@ -42,14 +41,29 @@ namespace RefactorThis.Services
             return _productRepository.SelectProduct(id);
         }
 
-        public void Save(Product product)
+        public Guid Save(Product product)
         {
-            throw new NotImplementedException();
+            var id = Guid.NewGuid();
+            _productRepository.SaveProduct(id,
+                product.Name,
+                product.Description,
+                product.Price,
+                product.DeliveryPrice);
+            return id;
         }
 
-        public void Update(Product product)
+        public void Update(Guid id, Product product)
         {
-            throw new NotImplementedException();
+            _productRepository.UpdateProduct(id,
+                product.Name,
+                product.Description,
+                product.Price,
+                product.DeliveryPrice);
+        }
+
+        public void Delete(Guid id)
+        {
+            _productRepository.DeleteProduct(id);
         }
     }
 }
