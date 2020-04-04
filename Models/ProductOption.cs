@@ -1,5 +1,6 @@
 ﻿using System;
 using Newtonsoft.Json;
+using RefactorThis.Repositories;
 
 namespace RefactorThis.Models
 {
@@ -16,7 +17,7 @@ namespace RefactorThis.Models
 
     public class ProductOption : IProductOption
     {
-        private readonly IHelpers _helpers;
+        private readonly IProductRepository _productRepository;
 
         public Guid Id { get; set; }
 
@@ -28,18 +29,18 @@ namespace RefactorThis.Models
 
         [JsonIgnore] public bool IsNew { get; }
 
-        public ProductOption(IHelpers helpers)
+        public ProductOption(IProductRepository productRepository)
         {
-            _helpers = helpers;
+            _productRepository = productRepository;
             Id = Guid.NewGuid();
             IsNew = true;
         }
 
-        public ProductOption(Guid id, IHelpers helpers)
+        public ProductOption(Guid id, IProductRepository productRepository)
         {
-            _helpers = helpers;
+            _productRepository = productRepository;
             IsNew = true;
-            var conn = _helpers.NewConnection();
+            var conn = _productRepository.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
 
@@ -58,7 +59,7 @@ namespace RefactorThis.Models
 
         public void Save()
         {
-            var conn = _helpers.NewConnection();
+            var conn = _productRepository.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
 
@@ -71,7 +72,7 @@ namespace RefactorThis.Models
 
         public void Delete()
         {
-            var conn = _helpers.NewConnection();
+            var conn = _productRepository.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
             cmd.CommandText = $"delete from productoptions where id = '{Id}' collate nocase";

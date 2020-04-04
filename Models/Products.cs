@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RefactorThis.Repositories;
 
 namespace RefactorThis.Models
 {
@@ -10,35 +11,11 @@ namespace RefactorThis.Models
 
     public class Products : IProducts
     {
-        private readonly IHelpers _helpers;
-        public List<Product> Items { get; private set; }
+        public List<Product> Items { get; }
 
-        public Products(IHelpers helpers)
+        public Products(List<Product> items)
         {
-            this._helpers = helpers;
-            LoadProducts(null);
-        }
-
-        public Products(string name, IHelpers helpers)
-        {
-            this._helpers = helpers;
-            LoadProducts($"where lower(name) like '%{name.ToLower()}%'");
-        }
-
-        private void LoadProducts(string where)
-        {
-            Items = new List<Product>();
-            var conn = _helpers.NewConnection();
-            conn.Open();
-            var cmd = conn.CreateCommand();
-            cmd.CommandText = $"select id from Products {where}";
-
-            var rdr = cmd.ExecuteReader();
-            while (rdr.Read())
-            {
-                var id = Guid.Parse(rdr.GetString(0));
-                Items.Add(new Product(id,_helpers));
-            }
+            Items = items;
         }
     }
 }

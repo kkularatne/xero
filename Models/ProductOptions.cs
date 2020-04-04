@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using RefactorThis.Repositories;
 
 namespace RefactorThis.Models
 {
@@ -10,26 +11,26 @@ namespace RefactorThis.Models
 
     public class ProductOptions : IProductOptions
     {
-        private readonly IHelpers _helpers;
+        private readonly IProductRepository _productRepository;
 
         public List<ProductOption> Items { get; private set; }
 
-        public ProductOptions(IHelpers helpers)
+        public ProductOptions(IProductRepository productRepository)
         {
-            _helpers = helpers;
+            _productRepository = productRepository;
             LoadProductOptions(null);
         }
 
-        public ProductOptions(Guid productId, IHelpers helpers)
+        public ProductOptions(Guid productId, IProductRepository productRepository)
         {
-            _helpers = helpers;
+            _productRepository = productRepository;
             LoadProductOptions($"where productid = '{productId}' collate nocase");
         }
 
         private void LoadProductOptions(string where)
         {
             Items = new List<ProductOption>();
-            var conn = _helpers.NewConnection();
+            var conn = _productRepository.NewConnection();
             conn.Open();
             var cmd = conn.CreateCommand();
 
@@ -39,7 +40,7 @@ namespace RefactorThis.Models
             while (rdr.Read())
             {
                 var id = Guid.Parse(rdr.GetString(0));
-                Items.Add(new ProductOption(id,_helpers));
+                Items.Add(new ProductOption(id,_productRepository));
             }
         }
     }

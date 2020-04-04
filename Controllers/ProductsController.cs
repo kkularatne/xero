@@ -1,6 +1,8 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
 using RefactorThis.Models;
+using RefactorThis.Repositories;
+using RefactorThis.Services;
 
 namespace RefactorThis.Controllers
 {
@@ -8,39 +10,51 @@ namespace RefactorThis.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IHelpers _helpers;
+        private readonly IProductRepository _productRepository;
+        private readonly IProductService _productService;
 
-        public ProductsController(IHelpers helpers)
+        public ProductsController(IProductRepository productRepository, IProductService productService)
         {
-            _helpers = helpers;
+            _productRepository = productRepository;
+            _productService = productService;
         }
 
         [HttpGet]
-        public Products Get()
+        public IActionResult Get()
         {
-            return new Products(_helpers);
+            var products = _productService.GetAllProducts();
+            return Ok(products);
         }
 
         [HttpGet("{id}")]
-        public Product Get(Guid id)
+        public IActionResult Get(Guid id)
         {
-            var product = new Product(id,_helpers);
-            if (product.IsNew)
-                throw new Exception();
-
-            return product;
+            try
+            {
+                return Ok(_productService.GetProduct(id));
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost]
-        public void Post(Product product)
+        public IActionResult Post(Product product)
         {
             product.Save();
+            // created 201
+            return Ok();
         }
 
         [HttpPut("{id}")]
         public void Update(Guid id, Product product)
         {
-            var orig = new Product(id,_helpers)
+            var orig = new Product(id,_productRepository)
             {
                 Name = product.Name,
                 Description = product.Description,
@@ -55,20 +69,20 @@ namespace RefactorThis.Controllers
         [HttpDelete("{id}")]
         public void Delete(Guid id)
         {
-            var product = new Product(id,_helpers);
+            var product = new Product(id,_productRepository);
             product.Delete();
         }
 
         [HttpGet("{productId}/options")]
         public ProductOptions GetOptions(Guid productId)
         {
-            return new ProductOptions(productId,_helpers);
+            return new ProductOptions(productId,_productRepository);
         }
 
         [HttpGet("{productId}/options/{id}")]
         public ProductOption GetOption(Guid productId, Guid id)
         {
-            var option = new ProductOption(id,_helpers);
+            var option = new ProductOption(id,_productRepository);
             if (option.IsNew)
                 throw new Exception();
 
@@ -85,7 +99,7 @@ namespace RefactorThis.Controllers
         [HttpPut("{productId}/options/{id}")]
         public void UpdateOption(Guid id, ProductOption option)
         {
-            var orig = new ProductOption(id,_helpers)
+            var orig = new ProductOption(id,_productRepository)
             {
                 Name = option.Name,
                 Description = option.Description
@@ -98,7 +112,7 @@ namespace RefactorThis.Controllers
         [HttpDelete("{productId}/options/{id}")]
         public void DeleteOption(Guid id)
         {
-            var opt = new ProductOption(id,_helpers);
+            var opt = new ProductOption(id,_productRepository);
             opt.Delete();
         }
     }
