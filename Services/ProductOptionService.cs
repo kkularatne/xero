@@ -7,16 +7,6 @@ using RefactorThis.Repositories;
 
 namespace RefactorThis.Services
 {
-    public interface IProductOptionService
-    {
-        ProductOptions GetAllProductOptions();
-        ProductOptions GetProductOptionsByProductId(Guid productId);
-        ProductOption GetProductOption(Guid id);
-        Guid Save(Guid productId, ProductOption option);
-        void Update(Guid id, ProductOption option);
-        void Delete(Guid id);
-    }
-
     public class ProductOptionService : IProductOptionService
     {
         private readonly IProductOptionRepository _productOptionRepository;
@@ -24,12 +14,6 @@ namespace RefactorThis.Services
         public ProductOptionService(IProductOptionRepository productOptionRepository)
         {
             _productOptionRepository = productOptionRepository;
-        }
-
-        public ProductOptions GetAllProductOptions()
-        {
-            var productOptions = _productOptionRepository.SearchProductOptions(string.Empty);
-            return new ProductOptions(productOptions.ToList());
         }
 
         public ProductOptions GetProductOptionsByProductId(Guid productId)

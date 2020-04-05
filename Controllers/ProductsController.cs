@@ -15,7 +15,7 @@ namespace RefactorThis.Controllers
         private readonly IProductService _productService;
         private readonly IProductOptionService _productOptionService;
 
-        public ProductsController(IProductRepository productRepository, IProductService productService, IProductOptionService productOptionService)
+        public ProductsController(IProductService productService, IProductOptionService productOptionService)
         {
             _productService = productService;
             _productOptionService = productOptionService;

@@ -5,16 +5,6 @@ using RefactorThis.Repositories;
 
 namespace RefactorThis.Services
 {
-    public interface IProductService
-    {
-        Products GetAllProducts();
-        Products GetProductsByName(string name);
-        Product GetProduct(Guid id);
-        Guid Save(Product product);
-        void Update(Guid id, Product product);
-        void Delete(Guid id);
-    }
-
     public class ProductService : IProductService
     {
         private readonly IProductRepository _productRepository;
