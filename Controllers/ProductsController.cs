@@ -25,8 +25,15 @@ namespace RefactorThis.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            var products = _productService.GetAllProducts();
-            return Ok(products);
+            try
+            {
+                var products = _productService.GetAllProducts();
+                return Ok(products);
+            }
+            catch (Exception )
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{id}")]
@@ -103,48 +110,91 @@ namespace RefactorThis.Controllers
         [HttpGet("{productId}/options")]
         public IActionResult GetOptions(Guid productId)
         {
-            var productOptions = _productOptionService.GetProductOptionsByProductId(productId);
-            return Ok(productOptions);
+            try
+            {
+                var productOptions = _productOptionService.GetProductOptionsByProductId(productId);
+                return Ok(productOptions);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpGet("{productId}/options/{id}")]
         public IActionResult GetOption(Guid productId, Guid id)
         {
-            var product = _productService.GetProduct(productId);
-            var productOption  =_productOptionService.GetProductOption(id);
-            //var option = new ProductOption(id,_productRepository);
-            //if (option.IsNew)
-            //    throw new Exception();
-
-            //return option;
-            return Ok(productOption);
+            try
+            {
+                _productService.GetProduct(productId);
+                var productOption = _productOptionService.GetProductOption(id);
+                return Ok(productOption);
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPost("{productId}/options")]
-        public void CreateOption(Guid productId, ProductOption option)
+        public IActionResult CreateOption(Guid productId, ProductOption option)
         {
-            option.ProductId = productId;
-            option.Save();
+            try
+            {
+                _productService.GetProduct(productId);
+                var id = _productOptionService.Save(productId, option);
+                return Created(string.Empty, id);
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpPut("{productId}/options/{id}")]
-        public void UpdateOption(Guid id, ProductOption option)
+        public IActionResult UpdateOption(Guid id, ProductOption option)
         {
-            //var orig = new ProductOption(id,_productRepository)
-            //{
-            //    Name = option.Name,
-            //    Description = option.Description
-            //};
-
-            //if (!orig.IsNew)
-            //    orig.Save();
+            try
+            {
+                _productOptionService.GetProductOption(id);
+                _productOptionService.Update(id, option);
+                return NoContent();
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
 
         [HttpDelete("{productId}/options/{id}")]
         public IActionResult DeleteOption(Guid id)
         {
-            _productOptionService.Delete(id);
-            return NoContent();
+            try
+            {
+                _productOptionService.GetProductOption(id);
+                _productOptionService.Delete(id);
+                return NoContent();
+            }
+            catch (RecordNotFoundException e)
+            {
+                return NotFound(e.Message);
+            }
+            catch (Exception)
+            {
+                return StatusCode(500);
+            }
         }
     }
 }

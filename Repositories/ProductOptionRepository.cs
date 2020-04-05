@@ -10,8 +10,10 @@ namespace RefactorThis.Repositories
 {
     public interface IProductOptionRepository
     {
-        IList<ProductOption> SearchProducts(string productId = null);
+        IList<ProductOption> SearchProductOptions(string productId = null);
         ProductOption SelectProductOption(Guid id);
+        void SaveProductOption(Guid id, Guid productId, string name, string description);
+        void UpdateProductOption(Guid id, string name, string description);
         void DeleteProductOption(Guid id);
     }
 
@@ -21,7 +23,7 @@ namespace RefactorThis.Repositories
         {
         }
 
-        public IList<ProductOption> SearchProducts(string productId = null)
+        public IList<ProductOption> SearchProductOptions(string productId = null)
         {
             var items = new List<ProductOption>();
             var where = string.Empty;
@@ -75,6 +77,32 @@ namespace RefactorThis.Repositories
                         Description = (DBNull.Value == rdr["Description"]) ? null : rdr["Description"].ToString()
                     };
                 }
+            }
+        }
+
+        public void SaveProductOption(Guid id, Guid productId, string name, string description)
+        {
+            using (var conn = this.NewConnection())
+            {
+                var cmd = new SqliteCommand(
+                        $"insert into productoptions (id, productid, name, description) values ('{id}', '{productId}', '{name}', '{description}')"
+                    , conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
+            }
+        }
+
+        public void UpdateProductOption(Guid id, string name, string description)
+        {
+            using (var conn = this.NewConnection())
+            {
+                var cmd = new SqliteCommand(
+                    $"update productoptions set name = '{name}', description = '{description}' where id = '{id}' collate nocase",
+                    conn);
+                conn.Open();
+                cmd.ExecuteNonQuery();
+                conn.Close();
             }
         }
 

@@ -12,6 +12,8 @@ namespace RefactorThis.Services
         ProductOptions GetAllProductOptions();
         ProductOptions GetProductOptionsByProductId(Guid productId);
         ProductOption GetProductOption(Guid id);
+        Guid Save(Guid productId, ProductOption option);
+        void Update(Guid id, ProductOption option);
         void Delete(Guid id);
     }
 
@@ -26,19 +28,31 @@ namespace RefactorThis.Services
 
         public ProductOptions GetAllProductOptions()
         {
-            var productOptions = _productOptionRepository.SearchProducts(string.Empty);
+            var productOptions = _productOptionRepository.SearchProductOptions(string.Empty);
             return new ProductOptions(productOptions.ToList());
         }
 
         public ProductOptions GetProductOptionsByProductId(Guid productId)
         {
-            var productOptions = _productOptionRepository.SearchProducts(productId.ToString());
+            var productOptions = _productOptionRepository.SearchProductOptions(productId.ToString());
             return new ProductOptions(productOptions.ToList());
         }
 
         public ProductOption GetProductOption(Guid id)
         {
             return _productOptionRepository.SelectProductOption(id);
+        }
+
+        public Guid Save(Guid productId, ProductOption option)
+        {
+            var id = Guid.NewGuid();
+            _productOptionRepository.SaveProductOption(id, productId, option.Name, option.Description);
+            return id;
+        }
+
+        public void Update(Guid id, ProductOption option)
+        {
+            _productOptionRepository.UpdateProductOption(id,option.Name,option.Description);
         }
 
         public void Delete(Guid id)

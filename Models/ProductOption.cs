@@ -64,8 +64,8 @@ namespace RefactorThis.Models
             //var cmd = conn.CreateCommand();
 
             //cmd.CommandText = IsNew
-            //    ? $"insert into productoptions (id, productid, name, description) values ('{Id}', '{ProductId}', '{Name}', '{Description}')"
-            //    : $"update productoptions set name = '{Name}', description = '{Description}' where id = '{Id}' collate nocase";
+            //    
+            //    : ;
 
             //cmd.ExecuteNonQuery();
         }
