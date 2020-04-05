@@ -2,12 +2,7 @@
 
 namespace RefactorThis.Models
 {
-    public interface IProducts
-    {
-        List<Product> Items { get; }
-    }
-
-    public class Products : IProducts
+    public class Products
     {
         public List<Product> Items { get; }
 
