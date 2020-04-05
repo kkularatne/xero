@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using Microsoft.Data.Sqlite;
 using RefactorThis.Models;
 
 namespace RefactorThis.Repositories

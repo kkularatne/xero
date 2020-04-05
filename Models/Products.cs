@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using RefactorThis.Repositories;
+﻿using System.Collections.Generic;
 
 namespace RefactorThis.Models
 {
