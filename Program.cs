@@ -7,6 +7,7 @@ using Microsoft.AspNetCore;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Serilog;
 
 namespace RefactorThis
 {
@@ -14,6 +15,9 @@ namespace RefactorThis
     {
         public static void Main(string[] args)
         {
+            Log.Logger = new LoggerConfiguration()
+                .WriteTo.File("Logs/log.log", rollingInterval: RollingInterval.Day)
+                .CreateLogger();
             CreateWebHostBuilder(args).Build().Run();
         }
 

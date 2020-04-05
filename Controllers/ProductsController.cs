@@ -1,9 +1,10 @@
 ﻿using System;
 using Microsoft.AspNetCore.Mvc;
+using RefactorThis.Constants;
 using RefactorThis.Models;
 using RefactorThis.Repositories;
 using RefactorThis.Services;
-using SQLitePCL;
+using Serilog;
 
 namespace RefactorThis.Controllers
 {
@@ -11,13 +12,11 @@ namespace RefactorThis.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly IProductRepository _productRepository;
         private readonly IProductService _productService;
         private readonly IProductOptionService _productOptionService;
 
         public ProductsController(IProductRepository productRepository, IProductService productService, IProductOptionService productOptionService)
         {
-            _productRepository = productRepository;
             _productService = productService;
             _productOptionService = productOptionService;
         }
@@ -30,8 +29,9 @@ namespace RefactorThis.Controllers
                 var products = _productService.GetAllProducts();
                 return Ok(products);
             }
-            catch (Exception )
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -45,10 +45,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -61,8 +63,9 @@ namespace RefactorThis.Controllers
                 var id = _productService.Save(product);
                 return Created(new Uri("https://localhost:44335/api/products"), id);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -79,10 +82,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -98,10 +103,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
 
@@ -115,8 +122,9 @@ namespace RefactorThis.Controllers
                 var productOptions = _productOptionService.GetProductOptionsByProductId(productId);
                 return Ok(productOptions);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -132,10 +140,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -151,10 +161,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -170,10 +182,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
@@ -189,10 +203,12 @@ namespace RefactorThis.Controllers
             }
             catch (RecordNotFoundException e)
             {
+                Log.Error(e, ExceptionTemplates.RecordNotFoundError);
                 return NotFound(e.Message);
             }
-            catch (Exception)
+            catch (Exception e)
             {
+                Log.Error(e, ExceptionTemplates.UnknownError);
                 return StatusCode(500);
             }
         }
