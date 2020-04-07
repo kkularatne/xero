@@ -64,7 +64,7 @@ namespace RefactorThis.Controllers
             try
             {
                 var id = await _productService.SaveAsync(product);
-                return Created(new Uri("https://localhost:44335/api/products"), id);
+                return Created(String.Empty, id);
             }
             catch (Exception e)
             {
