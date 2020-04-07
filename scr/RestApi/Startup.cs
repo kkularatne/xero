@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.OpenApi.Models;
 using RefactorThis.Repository;
 using RefactorThis.Service;
 
@@ -25,6 +26,11 @@ namespace RefactorThis
             services.AddTransient<IProductRepository, ProductRepository>();
             services.AddTransient<IProductOptionService, ProductOptionService>();
             services.AddTransient<IProductOptionRepository, ProductOptionRepository>();
+
+            services.AddSwaggerGen(c =>
+            {
+                c.SwaggerDoc("v1", new OpenApiInfo{Title = "Refactor This API doc", Version = "v1"});
+            });
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -40,6 +46,10 @@ namespace RefactorThis
                 app.UseHsts();
             }
 
+            app.UseSwagger();
+            app.UseSwaggerUI(c => { c.SwaggerEndpoint("/swagger/v1/swagger.json", "Refactor This API doc v1");
+                c.RoutePrefix = string.Empty;
+            });
             app.UseHttpsRedirection();
             app.UseMvc();
         }
