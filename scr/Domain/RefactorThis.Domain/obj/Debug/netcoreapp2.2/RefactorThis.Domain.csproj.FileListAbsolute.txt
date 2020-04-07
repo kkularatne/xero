@@ -1,9 +1,0 @@
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\bin\Debug\netcoreapp2.2\RefactorThis.Domain.deps.json
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\bin\Debug\netcoreapp2.2\RefactorThis.Domain.dll
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\bin\Debug\netcoreapp2.2\RefactorThis.Domain.pdb
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\obj\Debug\netcoreapp2.2\RefactorThis.Domain.csprojAssemblyReference.cache
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\obj\Debug\netcoreapp2.2\RefactorThis.Domain.csproj.CoreCompileInputs.cache
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\obj\Debug\netcoreapp2.2\RefactorThis.Domain.AssemblyInfoInputs.cache
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\obj\Debug\netcoreapp2.2\RefactorThis.Domain.AssemblyInfo.cs
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\obj\Debug\netcoreapp2.2\RefactorThis.Domain.dll
-C:\Users\KKULA\Downloads\RefactorThis\RefactorThis\scr\Domain\RefactorThis.Domain\obj\Debug\netcoreapp2.2\RefactorThis.Domain.pdb
