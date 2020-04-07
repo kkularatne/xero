@@ -116,11 +116,11 @@ namespace RefactorThis.Controllers
         }
 
         [HttpGet("{productId}/options")]
-        public IActionResult GetOptions(Guid productId)
+        public async Task<IActionResult> GetOptions(Guid productId)
         {
             try
             {
-                var productOptions = _productOptionService.GetProductOptionsByProductId(productId);
+                var productOptions = await _productOptionService.GetProductOptionsByProductIdAsync(productId);
                 return Ok(productOptions);
             }
             catch (Exception e)
@@ -131,12 +131,12 @@ namespace RefactorThis.Controllers
         }
 
         [HttpGet("{productId}/options/{id}")]
-        public IActionResult GetOption(Guid productId, Guid id)
+        public async Task<IActionResult> GetOption(Guid productId, Guid id)
         {
             try
             {
-                _productService.GetProduct(productId);
-                var productOption = _productOptionService.GetProductOption(id);
+                await _productService.GetProductAsync(productId);
+                var productOption = await _productOptionService.GetProductOptionAsync(id);
                 return Ok(productOption);
             }
             catch (RecordNotFoundException e)
@@ -152,12 +152,12 @@ namespace RefactorThis.Controllers
         }
 
         [HttpPost("{productId}/options")]
-        public IActionResult CreateOption(Guid productId, ProductOption option)
+        public async Task<IActionResult> CreateOption(Guid productId, ProductOption option)
         {
             try
             {
-                _productService.GetProduct(productId);
-                var id = _productOptionService.Save(productId, option);
+                await _productService.GetProductAsync(productId);
+                var id = await _productOptionService.SaveAsync(productId, option);
                 return Created(string.Empty, id);
             }
             catch (RecordNotFoundException e)
@@ -173,12 +173,12 @@ namespace RefactorThis.Controllers
         }
 
         [HttpPut("{productId}/options/{id}")]
-        public IActionResult UpdateOption(Guid id, ProductOption option)
+        public async Task<IActionResult> UpdateOption(Guid id, ProductOption option)
         {
             try
             {
-                _productOptionService.GetProductOption(id);
-                _productOptionService.Update(id, option);
+                await _productOptionService.GetProductOptionAsync(id);
+                await _productOptionService.UpdateAsync(id, option);
                 return NoContent();
             }
             catch (RecordNotFoundException e)
@@ -194,12 +194,12 @@ namespace RefactorThis.Controllers
         }
 
         [HttpDelete("{productId}/options/{id}")]
-        public IActionResult DeleteOption(Guid id)
+        public async Task<IActionResult> DeleteOption(Guid id)
         {
             try
             {
-                _productOptionService.GetProductOption(id);
-                _productOptionService.Delete(id);
+                await _productOptionService.GetProductOptionAsync(id);
+                await _productOptionService.DeleteAsync(id);
                 return NoContent();
             }
             catch (RecordNotFoundException e)

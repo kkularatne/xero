@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using RefactorThis.Models;
@@ -12,7 +13,7 @@ namespace RefactorThis.Repositories
         {
         }
 
-        public IList<ProductOption> SearchProductOptions(string productId = null)
+        public async Task<IList<ProductOption>> SearchProductOptionsAsync(string productId = null)
         {
             var items = new List<ProductOption>();
             var where = string.Empty;
@@ -25,7 +26,7 @@ namespace RefactorThis.Repositories
             {
                 var cmd = new SqliteCommand($"select * from productoptions {where}", conn);
                 conn.Open();
-                using (var rdr = cmd.ExecuteReader())
+                using (var rdr = await cmd.ExecuteReaderAsync())
                 {
                     while (rdr.Read())
                     {
@@ -46,14 +47,14 @@ namespace RefactorThis.Repositories
             return items;
         }
 
-        public ProductOption SelectProductOption(Guid id)
+        public async Task<ProductOption> SelectProductOptionAsync(Guid id)
         {
             using (var conn = NewConnection())
             {
                 SqliteCommand cmd = new SqliteCommand($"select * from productoptions where id = '{id}' collate nocase",
                     conn);
                 conn.Open();
-                using (var rdr = cmd.ExecuteReader())
+                using (var rdr = await cmd.ExecuteReaderAsync())
                 {
                     if (!rdr.Read())
                         throw new RecordNotFoundException(id, "product option");
@@ -69,7 +70,7 @@ namespace RefactorThis.Repositories
             }
         }
 
-        public void SaveProductOption(Guid id, Guid productId, string name, string description)
+        public async Task SaveProductOptionAsync(Guid id, Guid productId, string name, string description)
         {
             using (var conn = this.NewConnection())
             {
@@ -77,12 +78,12 @@ namespace RefactorThis.Repositories
                         $"insert into productoptions (id, productid, name, description) values ('{id}', '{productId}', '{name}', '{description}')"
                     , conn);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
         }
 
-        public void UpdateProductOption(Guid id, string name, string description)
+        public async Task UpdateProductOptionAsync(Guid id, string name, string description)
         {
             using (var conn = this.NewConnection())
             {
@@ -90,18 +91,18 @@ namespace RefactorThis.Repositories
                     $"update productoptions set name = '{name}', description = '{description}' where id = '{id}' collate nocase",
                     conn);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
         }
 
-        public void DeleteProductOption(Guid id)
+        public async Task DeleteProductOptionAsync(Guid id)
         {
             using (var conn = NewConnection())
             {
                 conn.Open();
                 var cmd = new SqliteCommand($"delete from productoptions where id = '{id}' collate nocase", conn);
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
         }

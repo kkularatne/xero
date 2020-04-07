@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using RefactorThis.Models;
 
 namespace RefactorThis.Repositories
 {
     public interface IProductOptionRepository
     {
-        IList<ProductOption> SearchProductOptions(string productId = null);
-        ProductOption SelectProductOption(Guid id);
-        void SaveProductOption(Guid id, Guid productId, string name, string description);
-        void UpdateProductOption(Guid id, string name, string description);
-        void DeleteProductOption(Guid id);
+        Task<IList<ProductOption>> SearchProductOptionsAsync(string productId = null);
+        Task<ProductOption> SelectProductOptionAsync(Guid id);
+        Task SaveProductOptionAsync(Guid id, Guid productId, string name, string description);
+        Task UpdateProductOptionAsync(Guid id, string name, string description);
+        Task DeleteProductOptionAsync(Guid id);
     }
 }

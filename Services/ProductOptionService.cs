@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using RefactorThis.Models;
 using RefactorThis.Repositories;
 
@@ -14,32 +15,32 @@ namespace RefactorThis.Services
             _productOptionRepository = productOptionRepository;
         }
 
-        public ProductOptions GetProductOptionsByProductId(Guid productId)
+        public async Task<ProductOptions> GetProductOptionsByProductIdAsync(Guid productId)
         {
-            var productOptions = _productOptionRepository.SearchProductOptions(productId.ToString());
+            var productOptions = await _productOptionRepository.SearchProductOptionsAsync(productId.ToString());
             return new ProductOptions(productOptions.ToList());
         }
 
-        public ProductOption GetProductOption(Guid id)
+        public async Task<ProductOption> GetProductOptionAsync(Guid id)
         {
-            return _productOptionRepository.SelectProductOption(id);
+            return await _productOptionRepository.SelectProductOptionAsync(id);
         }
 
-        public Guid Save(Guid productId, ProductOption option)
+        public async Task<Guid> SaveAsync(Guid productId, ProductOption option)
         {
             var id = Guid.NewGuid();
-            _productOptionRepository.SaveProductOption(id, productId, option.Name, option.Description);
+            await _productOptionRepository.SaveProductOptionAsync(id, productId, option.Name, option.Description);
             return id;
         }
 
-        public void Update(Guid id, ProductOption option)
+        public async Task UpdateAsync(Guid id, ProductOption option)
         {
-            _productOptionRepository.UpdateProductOption(id,option.Name,option.Description);
+            await _productOptionRepository.UpdateProductOptionAsync(id,option.Name,option.Description);
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            _productOptionRepository.DeleteProductOption(id);
+            await _productOptionRepository.DeleteProductOptionAsync(id);
         }
     }
 }
