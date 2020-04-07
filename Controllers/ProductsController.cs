@@ -23,11 +23,13 @@ namespace RefactorThis.Controllers
         }
 
         [HttpGet]
-        public async Task<IActionResult> GetAsync()
+        public async Task<IActionResult> GetAsync(string name)
         {
             try
             {
-                var products = await _productService.GetAllProductsAsync();
+                var products = string.IsNullOrEmpty(name)
+                    ? await _productService.GetAllProductsAsync()
+                    : await _productService.GetProductsByNameAsync(name);
                 return Ok(products);
             }
             catch (Exception e)
