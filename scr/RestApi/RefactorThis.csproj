@@ -17,6 +17,7 @@
       <ProjectReference Include="..\Domain\RefactorThis.Domain\RefactorThis.Domain.csproj">
         <Private>true</Private>
       </ProjectReference>
+      <ProjectReference Include="..\Repository\RefactorThis.Repository\RefactorThis.Repository.csproj" />
     </ItemGroup>
 
 </Project>

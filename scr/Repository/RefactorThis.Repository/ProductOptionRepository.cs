@@ -5,7 +5,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using RefactorThis.Domain;
 
-namespace RefactorThis.Repositories
+namespace RefactorThis.Repository
 {
     public class ProductOptionRepository : BaseRepository, IProductOptionRepository
     {

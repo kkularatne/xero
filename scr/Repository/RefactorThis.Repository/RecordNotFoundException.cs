@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace RefactorThis.Repositories
+namespace RefactorThis.Repository
 {
     public class RecordNotFoundException : Exception
     {

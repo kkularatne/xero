@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Threading.Tasks;
 using RefactorThis.Domain;
 
-namespace RefactorThis.Repositories
+namespace RefactorThis.Repository
 {
     public interface IProductRepository
     {

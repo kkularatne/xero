@@ -1,7 +1,7 @@
 ﻿using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 
-namespace RefactorThis.Repositories
+namespace RefactorThis.Repository
 {
 
     public abstract class BaseRepository

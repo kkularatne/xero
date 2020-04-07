@@ -5,7 +5,7 @@ using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using RefactorThis.Domain;
 
-namespace RefactorThis.Repositories
+namespace RefactorThis.Repository
 {
     public class ProductRepository : BaseRepository, IProductRepository
     {
@@ -26,11 +26,11 @@ namespace RefactorThis.Repositories
 
                     return new Product()
                     {
-                        Id = Guid.Parse(rdr["Id"].ToString()),
+                        Id = Guid.Parse((string) rdr["Id"].ToString()),
                         Name = rdr["Name"].ToString(),
                         Description = (DBNull.Value == rdr["Description"]) ? null : rdr["Description"].ToString(),
-                        Price = decimal.Parse(rdr["Price"].ToString()),
-                        DeliveryPrice = decimal.Parse(rdr["DeliveryPrice"].ToString())
+                        Price = decimal.Parse((string) rdr["Price"].ToString()),
+                        DeliveryPrice = decimal.Parse((string) rdr["DeliveryPrice"].ToString())
                     };
                 }
             }
@@ -92,11 +92,11 @@ namespace RefactorThis.Repositories
                     {
                         var product = new Product()
                         {
-                            Id = Guid.Parse(rdr["Id"].ToString()),
+                            Id = Guid.Parse((string) rdr["Id"].ToString()),
                             Name = rdr["Name"].ToString(),
                             Description = (DBNull.Value == rdr["Description"]) ? null : rdr["Description"].ToString(),
-                            Price = decimal.Parse(rdr["Price"].ToString()),
-                            DeliveryPrice = decimal.Parse(rdr["DeliveryPrice"].ToString())
+                            Price = decimal.Parse((string) rdr["Price"].ToString()),
+                            DeliveryPrice = decimal.Parse((string) rdr["DeliveryPrice"].ToString())
                         };
                         items.Add(product);
                     }

@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RefactorThis.Constants;
 using RefactorThis.Domain;
-using RefactorThis.Repositories;
+using RefactorThis.Repository;
 using RefactorThis.Services;
 using Serilog;
 

@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using RefactorThis.Repositories;
+using RefactorThis.Repository;
 using RefactorThis.Services;
 
 namespace RefactorThis

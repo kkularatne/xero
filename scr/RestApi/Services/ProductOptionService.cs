@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using RefactorThis.Domain;
-using RefactorThis.Repositories;
+using RefactorThis.Repository;
 
 namespace RefactorThis.Services
 {
