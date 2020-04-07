@@ -1,6 +1,4 @@
 ﻿using System;
-//using System.Text.Json.Serialization;
-
 namespace RefactorThis.Domain
 {
     public class Product
@@ -14,8 +12,6 @@ namespace RefactorThis.Domain
         public decimal Price { get; set; }
 
         public decimal DeliveryPrice { get; set; }
-
-       // [JsonIgnore] public bool IsNew { get; }
 
         public Product()
         {

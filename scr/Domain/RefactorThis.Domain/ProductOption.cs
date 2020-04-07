@@ -12,8 +12,6 @@ namespace RefactorThis.Domain
 
         public string Description { get; set; }
 
-        //[JsonIgnore] public bool IsNew { get; }
-
         public ProductOption()
         {
         }
