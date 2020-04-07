@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using RefactorThis.Repository;
-using RefactorThis.Services;
+using RefactorThis.Service;
 
 namespace RefactorThis
 {

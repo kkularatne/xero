@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 using RefactorThis.Domain;
 using RefactorThis.Repository;
 
-namespace RefactorThis.Services
+namespace RefactorThis.Service
 {
     public class ProductOptionService : IProductOptionService
     {

@@ -11,6 +11,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactorThis.Domain", "..\s
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactorThis.Repository", "..\scr\Repository\RefactorThis.Repository\RefactorThis.Repository.csproj", "{DAEDAEE5-3F9C-406C-B7B9-0F991CF78E78}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RefactorThis.Service", "..\scr\Service\RefactorThis.Service\RefactorThis.Service.csproj", "{ECA51B3B-7358-4BB2-959C-6D6D7AAF8F8B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -33,6 +35,10 @@ Global
 		{DAEDAEE5-3F9C-406C-B7B9-0F991CF78E78}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{DAEDAEE5-3F9C-406C-B7B9-0F991CF78E78}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{DAEDAEE5-3F9C-406C-B7B9-0F991CF78E78}.Release|Any CPU.Build.0 = Release|Any CPU
+		{ECA51B3B-7358-4BB2-959C-6D6D7AAF8F8B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{ECA51B3B-7358-4BB2-959C-6D6D7AAF8F8B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{ECA51B3B-7358-4BB2-959C-6D6D7AAF8F8B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{ECA51B3B-7358-4BB2-959C-6D6D7AAF8F8B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

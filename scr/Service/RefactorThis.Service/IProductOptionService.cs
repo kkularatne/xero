@@ -2,7 +2,7 @@
 using System.Threading.Tasks;
 using RefactorThis.Domain;
 
-namespace RefactorThis.Services
+namespace RefactorThis.Service
 {
     public interface IProductOptionService
     {

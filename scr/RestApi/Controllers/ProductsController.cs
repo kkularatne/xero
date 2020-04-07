@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RefactorThis.Constants;
 using RefactorThis.Domain;
 using RefactorThis.Repository;
-using RefactorThis.Services;
+using RefactorThis.Service;
 using Serilog;
 
 namespace RefactorThis.Controllers

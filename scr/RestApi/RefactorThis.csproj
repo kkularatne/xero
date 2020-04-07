@@ -18,6 +18,7 @@
         <Private>true</Private>
       </ProjectReference>
       <ProjectReference Include="..\Repository\RefactorThis.Repository\RefactorThis.Repository.csproj" />
+      <ProjectReference Include="..\Service\RefactorThis.Service\RefactorThis.Service.csproj" />
     </ItemGroup>
 
 </Project>
