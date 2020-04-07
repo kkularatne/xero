@@ -9,7 +9,7 @@ namespace RefactorThis
         public static void Main(string[] args)
         {
             Log.Logger = new LoggerConfiguration()
-                .WriteTo.File("Logs/log.log", rollingInterval: RollingInterval.Day)
+                .WriteTo.File("../../Logs/log.log", rollingInterval: RollingInterval.Day)
                 .CreateLogger();
             CreateWebHostBuilder(args).Build().Run();
         }
