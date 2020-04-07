@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Linq;
+using System.Threading.Tasks;
 using RefactorThis.Models;
 using RefactorThis.Repositories;
 
@@ -14,27 +15,27 @@ namespace RefactorThis.Services
             _productRepository = productRepository;
         }
 
-        public Products GetAllProducts()
+        public async Task<Products> GetAllProductsAsync()
         {
-            var products = _productRepository.SearchProducts(string.Empty);
+            var products = await _productRepository.SearchProductsAsync(string.Empty);
             return new Products(products.ToList());
         }
 
-        public Products GetProductsByName(string name)
+        public async Task<Products> GetProductsByNameAsync(string name)
         {
-            var products = _productRepository.SearchProducts(name);
+            var products = await _productRepository.SearchProductsAsync(name);
             return new Products(products.ToList());
         }
 
-        public Product GetProduct(Guid id)
+        public async Task<Product> GetProductAsync(Guid id)
         {
-            return _productRepository.SelectProduct(id);
+            return await _productRepository.SelectProductAsync(id);
         }
 
-        public Guid Save(Product product)
+        public async Task<Guid> SaveAsync(Product product)
         {
             var id = Guid.NewGuid();
-            _productRepository.SaveProduct(id,
+            await _productRepository.SaveProductAsync(id,
                 product.Name,
                 product.Description,
                 product.Price,
@@ -42,18 +43,18 @@ namespace RefactorThis.Services
             return id;
         }
 
-        public void Update(Guid id, Product product)
+        public async Task UpdateAsync(Guid id, Product product)
         {
-            _productRepository.UpdateProduct(id,
+            await _productRepository.UpdateProductAsync(id,
                 product.Name,
                 product.Description,
                 product.Price,
                 product.DeliveryPrice);
         }
 
-        public void Delete(Guid id)
+        public async Task DeleteAsync(Guid id)
         {
-            _productRepository.DeleteProduct(id);
+            await _productRepository.DeleteProductAsync(id);
         }
     }
 }

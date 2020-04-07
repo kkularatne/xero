@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Threading.Tasks;
 using Microsoft.Data.Sqlite;
 using Microsoft.Extensions.Configuration;
 using RefactorThis.Models;
@@ -12,13 +13,13 @@ namespace RefactorThis.Repositories
         {
         }
 
-        public Product SelectProduct(Guid id)
+        public async Task<Product> SelectProductAsync(Guid id)
         {
             using (var conn = NewConnection())
             {
                 SqliteCommand cmd = new SqliteCommand($"select * from Products where id = '{id}' collate nocase",conn);
                 conn.Open();
-                using (var rdr = cmd.ExecuteReader())
+                using (var rdr = await cmd.ExecuteReaderAsync())
                 {
                     if (!rdr.Read())
                         throw new RecordNotFoundException(id, "product");
@@ -35,7 +36,7 @@ namespace RefactorThis.Repositories
             }
         }
 
-        public void SaveProduct(Guid id, string name, string description, decimal price, decimal deliveryPrice)
+        public async Task SaveProductAsync(Guid id, string name, string description, decimal price, decimal deliveryPrice)
         {
             using (var conn = this.NewConnection())
             {
@@ -43,12 +44,12 @@ namespace RefactorThis.Repositories
                     $"insert into Products (id, name, description, price, deliveryprice) values ('{id}', '{name}', '{description}', {price}, {deliveryPrice})",
                     conn);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+               await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
         }
 
-        public void UpdateProduct(Guid id, string name, string description, decimal price, decimal deliveryPrice)
+        public async Task UpdateProductAsync(Guid id, string name, string description, decimal price, decimal deliveryPrice)
         {
             using (var conn = this.NewConnection())
             {
@@ -56,23 +57,23 @@ namespace RefactorThis.Repositories
                     $"update Products set name = '{name}', description = '{description}', price = {price}, deliveryprice = {deliveryPrice} where id = '{id}' collate nocase",
                     conn);
                 conn.Open();
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
         }
 
-        public void DeleteProduct(Guid id)
+        public async Task DeleteProductAsync(Guid id)
         {
             using (var conn = NewConnection())
             {
                 conn.Open();
                 var cmd = new SqliteCommand($"delete from Products where id = '{id}' collate nocase", conn);
-                cmd.ExecuteNonQuery();
+                await cmd.ExecuteNonQueryAsync();
                 conn.Close();
             }
         }
 
-        public IList<Product> SearchProducts(string name = null)
+        public async Task<IList<Product>> SearchProductsAsync(string name = null)
         {
             var items = new List<Product>();
             var where = string.Empty;
@@ -85,7 +86,7 @@ namespace RefactorThis.Repositories
             {
                 var cmd = new SqliteCommand($"select * from Products {where}",conn);
                 conn.Open();
-                using (var rdr = cmd.ExecuteReader())
+                using (var rdr = await cmd.ExecuteReaderAsync())
                 {
                     while (rdr.Read())
                     {

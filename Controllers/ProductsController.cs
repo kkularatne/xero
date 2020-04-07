@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using RefactorThis.Constants;
 using RefactorThis.Models;
@@ -22,11 +23,11 @@ namespace RefactorThis.Controllers
         }
 
         [HttpGet]
-        public IActionResult Get()
+        public async Task<IActionResult> GetAsync()
         {
             try
             {
-                var products = _productService.GetAllProducts();
+                var products = await _productService.GetAllProductsAsync();
                 return Ok(products);
             }
             catch (Exception e)
@@ -37,11 +38,11 @@ namespace RefactorThis.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public async Task<IActionResult> Get(Guid id)
         {
             try
             {
-                return Ok(_productService.GetProduct(id));
+                return Ok(await _productService.GetProductAsync(id));
             }
             catch (RecordNotFoundException e)
             {
@@ -56,11 +57,11 @@ namespace RefactorThis.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post(Product product)
+        public async Task<IActionResult> Post(Product product)
         {
             try
             {
-                var id = _productService.Save(product);
+                var id = await _productService.SaveAsync(product);
                 return Created(new Uri("https://localhost:44335/api/products"), id);
             }
             catch (Exception e)
@@ -71,12 +72,12 @@ namespace RefactorThis.Controllers
         }
 
         [HttpPut("{id}")]
-        public IActionResult Update(Guid id, Product product)
+        public async Task<IActionResult> Update(Guid id, Product product)
         {
             try
             {
-                var originalProduct= _productService.GetProduct(id);
-                _productService.Update(originalProduct.Id, product);
+                var originalProduct= await _productService.GetProductAsync(id);
+                await _productService.UpdateAsync(originalProduct.Id, product);
                 return NoContent();
 
             }
@@ -93,12 +94,12 @@ namespace RefactorThis.Controllers
         }
 
         [HttpDelete("{id}")]
-        public IActionResult Delete(Guid id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             try
             {
-                var originalProduct = _productService.GetProduct(id);
-                _productService.Delete(originalProduct.Id);
+                var originalProduct = await _productService.GetProductAsync(id);
+                await _productService.DeleteAsync(originalProduct.Id);
                 return NoContent();
             }
             catch (RecordNotFoundException e)
