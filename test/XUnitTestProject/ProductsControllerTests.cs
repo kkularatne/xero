@@ -116,5 +116,137 @@ namespace XUnitTestProject
             Assert.IsType<StatusCodeResult>(response);
             Assert.Equal(500, ((StatusCodeResult)response).StatusCode);
         }
+
+        [Fact]
+        public async Task Post_Test()
+        {
+            // Arrange
+            var product = new Product();
+
+            var mockIProductService = new Mock<IProductService>();
+            mockIProductService
+                .Setup(arg => arg.SaveAsync(product))
+                .ReturnsAsync(new Guid());
+
+            var mockIProductOptionService = new Mock<IProductOptionService>();
+            var sut = new ProductsController(mockIProductService.Object, mockIProductOptionService.Object);
+
+            // Act
+            var response = await sut.Post(product);
+
+            // Assert
+            Assert.IsType<CreatedResult>(response);
+            Assert.Equal(201, ((CreatedResult)response).StatusCode);
+
+            // Arrange
+            mockIProductService
+                .Setup(arg => arg.SaveAsync(product))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            response = await sut.Post(product);
+
+            // Assert
+            Assert.IsType<StatusCodeResult>(response);
+            Assert.Equal(500, ((StatusCodeResult)response).StatusCode);
+        }
+
+        [Fact]
+        public async Task Update_Test()
+        {
+            // Arrange
+            var guid = new Guid();
+            var product = new Product{Id = guid};
+
+            var mockIProductService = new Mock<IProductService>();
+            mockIProductService
+                .Setup(arg => arg.UpdateAsync(guid, product));
+            mockIProductService
+                .Setup(arg => arg.GetProductAsync(guid))
+                .ReturnsAsync(product);
+
+            var mockIProductOptionService = new Mock<IProductOptionService>();
+            var sut = new ProductsController(mockIProductService.Object, mockIProductOptionService.Object);
+
+            // Act
+            var response = await sut.Update(guid,product);
+
+            // Assert
+            Assert.IsType<NoContentResult>(response);
+            Assert.Equal(204, ((NoContentResult)response).StatusCode);
+
+            // Arrange
+            mockIProductService
+                .Setup(arg => arg.UpdateAsync(guid,product))
+                .ThrowsAsync(new RecordNotFoundException());
+
+            // Act
+            response = await sut.Update(guid,product);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(response);
+            Assert.Equal(404, ((NotFoundObjectResult)response).StatusCode);
+
+            // Arrange
+            mockIProductService
+                .Setup(arg => arg.UpdateAsync(guid, product))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            response = await sut.Update(guid, product);
+
+            // Assert
+            Assert.IsType<StatusCodeResult>(response);
+            Assert.Equal(500, ((StatusCodeResult)response).StatusCode);
+        }
+
+        [Fact]
+        public async Task Delete_Test()
+        {
+            // Arrange
+            var guid = new Guid();
+            var product = new Product { Id = guid };
+
+            var mockIProductService = new Mock<IProductService>();
+            mockIProductService
+                .Setup(arg => arg.DeleteAsync(guid));
+            mockIProductService
+                .Setup(arg => arg.GetProductAsync(guid))
+                .ReturnsAsync(product);
+
+            var mockIProductOptionService = new Mock<IProductOptionService>();
+            var sut = new ProductsController(mockIProductService.Object, mockIProductOptionService.Object);
+
+            // Act
+            var response = await sut.Delete(guid);
+
+            // Assert
+            Assert.IsType<NoContentResult>(response);
+            Assert.Equal(204, ((NoContentResult)response).StatusCode);
+
+            // Arrange
+            mockIProductService
+                .Setup(arg => arg.DeleteAsync(guid))
+                .ThrowsAsync(new RecordNotFoundException());
+
+            // Act
+            response = await sut.Delete(guid);
+
+            // Assert
+            Assert.IsType<NotFoundObjectResult>(response);
+            Assert.Equal(404, ((NotFoundObjectResult)response).StatusCode);
+
+            // Arrange
+            mockIProductService
+                .Setup(arg => arg.DeleteAsync(guid))
+                .ThrowsAsync(new Exception());
+
+            // Act
+            response = await sut.Delete(guid);
+
+            // Assert
+            Assert.IsType<StatusCodeResult>(response);
+            Assert.Equal(500, ((StatusCodeResult)response).StatusCode);
+        }
     }
 }
